@@ -9,6 +9,8 @@ const forecast=(latitude,longitude,callback)=>{
         const data = JSON.parse(JSON.stringify(response.body))
         const temperature=data.current.temperature
         const precip=data.current.precip
+        const localtime=data.location.localtime
+        
         if(error){
             callback('Unable to connect to weather service',undefined)
         }
@@ -17,7 +19,8 @@ const forecast=(latitude,longitude,callback)=>{
             callback('Unable to find location',undefined)
         }
         else{
-          callback(undefined,'It is currently ' + temperature + ' degrees out. There is a ' + precip + '% chance of rain.')
+            
+          callback(undefined,data.current.weather_descriptions[0] +'. It is currently ' + temperature + ' degrees out. It feels like '+ data.current.feelslike + ' degrees out. The humidity is '+data.current.humidity+'%. There is a ' + precip + '% chance of rain.')
         }
     })
 }
